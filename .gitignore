@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+*.log
+*.timestamp-*.mjs
+output/
+.playwright-cli/
+.vercel/
