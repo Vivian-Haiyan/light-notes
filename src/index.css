@@ -24,7 +24,7 @@ html, body {
 }
 
 body {
-  font-family: 'Noto Serif SC', serif;
+  font-family: 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', 'SimSun', serif;
   background: linear-gradient(135deg, #F5F5E9 0%, #E8F5E9 35%, #E3F2FD 70%, #FFF8E1 100%);
   min-height: 100vh;
   color: var(--text-primary);
@@ -33,6 +33,9 @@ body {
   overflow-y: auto;
   margin: 0;
   padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body::before {
@@ -58,7 +61,12 @@ body::before {
   overflow-x: hidden;
 }
 
-/* Content Container */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .content-container {
   width: 100%;
   max-width: 1120px;
@@ -69,7 +77,6 @@ body::before {
   z-index: 1;
 }
 
-/* Header */
 .header {
   display: flex;
   justify-content: space-between;
@@ -97,7 +104,6 @@ body::before {
   width: clamp(200px, 24vw, 320px) !important;
 }
 
-/* Status Tabs */
 .status-tabs {
   display: flex;
   gap: 14px;
@@ -108,9 +114,11 @@ body::before {
 
 .status-tab {
   flex-shrink: 0;
+  font-family: '"Noto Serif SC", "PingFang SC", "Microsoft YaHei", "SimSun", serif';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Books Grid */
 .books-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -247,7 +255,6 @@ body::before {
   color: #aaa;
 }
 
-/* Empty State */
 .empty-state {
   background: rgba(255, 255, 255, 0.9);
   border-radius: 20px;
@@ -256,7 +263,6 @@ body::before {
   box-shadow: 0 4px 24px rgba(107, 142, 107, 0.1);
 }
 
-/* Ant Design Overrides */
 .ant-btn-primary {
   background: linear-gradient(135deg, #6B8E6B 0%, #81C784 100%);
   border: none;
@@ -306,12 +312,10 @@ body::before {
   box-shadow: 0 20px 60px rgba(107, 142, 107, 0.2);
 }
 
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -329,7 +333,6 @@ html {
   background: linear-gradient(180deg, #81C784 0%, #66BB6A 100%);
 }
 
-/* Responsive Design - 保持桌面端布局 */
 @media (max-width: 1200px) {
   .content-container {
     max-width: 100%;

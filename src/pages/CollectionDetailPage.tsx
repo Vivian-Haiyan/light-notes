@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { 
-  Card, Empty, Button, Modal, Select, Popconfirm, message, Tag, Skeleton 
+  Card, Empty, Button, Modal, Select, Popconfirm, message, Skeleton 
 } from 'antd';
 import { 
   ArrowLeftOutlined, PlusOutlined, DeleteOutlined, EditOutlined 
@@ -103,54 +103,54 @@ const CollectionDetailPage = () => {
     }
   };
 
-  const getStatusColor = (status: string) => {
-    const colors: Record<string, string> = {
-      'want_to_read': 'gold',
-      'reading': 'green',
-      'read': 'blue',
-      'shelved': 'gray'
+  const getStatusStyle = (status: string) => {
+    const styles: Record<string, { bg: string; color: string }> = {
+      want_to_read: { bg: 'rgba(255, 193, 7, 0.15)', color: '#FF9800' },
+      reading: { bg: 'rgba(129, 199, 132, 0.15)', color: '#4CAF50' },
+      read: { bg: 'rgba(63, 81, 181, 0.15)', color: '#3F51B5' },
+      shelved: { bg: 'rgba(158, 158, 158, 0.15)', color: '#9E9E9E' }
     };
-    return colors[status] || 'default';
+    return styles[status] || styles.want_to_read;
   };
 
   const getStatusLabel = (status: string) => {
     const labels: Record<string, string> = {
-      'want_to_read': '想读',
-      'reading': '在读',
-      'read': '已读',
-      'shelved': '搁置'
+      want_to_read: '想读',
+      reading: '在读',
+      read: '已读',
+      shelved: '搁置'
     };
     return labels[status] || status;
   };
 
   const renderSkeleton = () => (
-    <div style={{ padding: '32px' }}>
-      <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-        <div style={{ marginBottom: '24px' }}>
+    <div className="content-container">
+      <div className="header">
+        <div className="header-left">
           <Skeleton.Button active style={{ width: 100, marginBottom: '16px' }} />
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px' }}>
-            <div>
-              <Skeleton title={{ width: 200 }} paragraph={{ rows: 2, width: [300, 100] }} active />
-            </div>
-            <div style={{ display: 'flex', gap: '12px' }}>
-              <Skeleton.Button active style={{ width: 100 }} />
-              <Skeleton.Button active style={{ width: 120 }} />
-            </div>
-          </div>
+          <Skeleton title={{ width: 200 }} paragraph={{ rows: 2, width: [300, 100] }} active />
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
-          {[1, 2, 3].map(i => (
-            <Card key={i} style={{
-              border: 'none',
-              borderRadius: '16px',
-              boxShadow: '0 4px 20px rgba(107, 142, 107, 0.1)',
-              background: 'rgba(255, 255, 255, 0.95)'
-            }}>
-              <div style={{ height: '200px', background: 'linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%)', borderRadius: '16px 16px 0 0', margin: '-24px -24px 16px -24px' }} />
-              <Skeleton paragraph={{ rows: 2, width: [120, 150] }} active />
-            </Card>
-          ))}
+        <div className="header-actions">
+          <Skeleton.Button active style={{ width: 100 }} />
+          <Skeleton.Button active style={{ width: 120 }} />
         </div>
+      </div>
+      <div className="books-grid">
+        {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+          <Card key={i} style={{ 
+            border: 'none', 
+            borderRadius: '16px',
+            background: 'linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%)'
+          }}>
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <Skeleton.Avatar shape="square" size="large" active />
+              <div style={{ flex: 1 }}>
+                <Skeleton title active />
+                <Skeleton paragraph={{ rows: 2 }} active />
+              </div>
+            </div>
+          </Card>
+        ))}
       </div>
     </div>
   );
@@ -161,26 +161,29 @@ const CollectionDetailPage = () => {
 
   if (!collection) {
     return (
-      <div style={{ padding: '32px', textAlign: 'center' }}>
-        <p style={{ fontSize: '18px', color: '#757575', marginBottom: '16px' }}>书单不存在</p>
-        <Button onClick={() => navigate('/collections')} style={{
-          background: 'linear-gradient(135deg, #81C784 0%, #66BB6A 100%)',
-          border: 'none',
-          borderRadius: '12px',
-          height: '44px',
-          padding: '0 24px'
-        }}>
-          返回书单列表
-        </Button>
+      <div className="content-container">
+        <div className="empty-state">
+          <div style={{ fontSize: '64px', marginBottom: '20px', opacity: 0.8 }}>📚</div>
+          <p style={{ fontSize: '18px', color: '#757575', marginBottom: '16px' }}>书单不存在</p>
+          <Button onClick={() => navigate('/collections')} style={{
+            background: 'linear-gradient(135deg, #81C784 0%, #66BB6A 100%)',
+            border: 'none',
+            borderRadius: '12px',
+            height: '44px',
+            padding: '0 24px'
+          }}>
+            返回书单列表
+          </Button>
+        </div>
       </div>
     );
   }
 
   return (
     <>
-    <div style={{ padding: '32px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ marginBottom: '32px' }}>
+    <div className="content-container">
+        <div className="header">
+          <div className="header-left">
             <Button
               onClick={() => navigate('/collections')}
               icon={<ArrowLeftOutlined />}
@@ -192,158 +195,149 @@ const CollectionDetailPage = () => {
             >
               返回书单
             </Button>
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
-              <div>
-                <h1 style={{
-                  fontFamily: 'Playfair Display, "Noto Serif SC", serif',
-                  fontSize: '32px',
-                  fontWeight: '600',
-                  color: '#424242',
-                  margin: '0 0 8px 0'
-                }}>
-                  {collection.name}
-                </h1>
-                <p style={{ fontSize: '16px', color: '#757575', margin: 0 }}>
-                  {collection.description || '暂无描述'}
-                </p>
-                <p style={{ fontSize: '14px', color: '#9E9E9E', margin: '8px 0 0 0' }}>
-                  {books.length} 本书
-                </p>
-              </div>
-              <div style={{ display: 'flex', gap: '12px' }}>
-                <Button
-                  icon={<EditOutlined />}
-                  onClick={handleEditCollection}
-                  style={{ borderRadius: '12px', height: '44px' }}
-                >
-                  编辑
-                </Button>
-                <Button
-                  type="primary"
-                  icon={<PlusOutlined />}
-                  onClick={handleAddBooks}
-                  style={{
-                    borderRadius: '12px',
-                    height: '44px',
-                    padding: '0 24px',
-                    background: 'linear-gradient(135deg, #81C784 0%, #66BB6A 100%)',
-                    boxShadow: '0 3px 12px rgba(129, 199, 132, 0.35)',
-                    border: 'none'
-                  }}
-                >
-                  添加书籍
-                </Button>
-              </div>
-            </div>
+            <h1 style={{
+              fontFamily: 'Playfair Display, "Noto Serif SC", serif',
+              fontSize: '32px',
+              fontWeight: '600',
+              color: '#424242',
+              margin: '0 0 8px 0'
+            }}>
+              {collection.name}
+            </h1>
+            <p style={{ fontSize: '16px', color: '#757575', margin: 0 }}>
+              {collection.description || '暂无描述'}
+            </p>
+            <p style={{ fontSize: '14px', color: '#9E9E9E', margin: '8px 0 0 0' }}>
+              {books.length} 本书
+            </p>
           </div>
 
-          {books.length === 0 ? (
-            <Card style={{
-              border: 'none',
-              borderRadius: '20px',
-              background: 'rgba(255, 255, 255, 0.9)',
-              padding: '80px 20px',
-              textAlign: 'center',
-              boxShadow: '0 4px 24px rgba(107, 142, 107, 0.1)'
-            }}>
-              <div style={{ fontSize: '64px', marginBottom: '20px', opacity: 0.8 }}>📚</div>
-              <Empty
-                description={
-                  <div>
-                    <p style={{ fontSize: '17px', fontWeight: '500', color: '#616161', marginBottom: '8px' }}>
-                      书单还没有书籍
-                    </p>
-                    <p style={{ fontSize: '14px', color: '#9E9E9E' }}>
-                      点击上方按钮添加书籍吧
-                    </p>
-                  </div>
-                }
-              />
-            </Card>
-          ) : (
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-              gap: '20px'
-            }}>
-              {books.map((book) => (
-                <div key={book.id}>
-                  <Card
-                    hoverable
-                    onClick={() => navigate(`/books/${book.id}`)}
-                    style={{
-                      border: 'none',
-                      borderRadius: '16px',
-                      boxShadow: '0 4px 20px rgba(107, 142, 107, 0.1)',
-                      background: 'rgba(255, 255, 255, 0.95)'
-                    }}
-                    styles={{ body: { padding: 0 } }}
-                    cover={
-                      <div style={{
-                        height: '200px',
-                        overflow: 'hidden',
-                        borderRadius: '16px 16px 0 0'
-                      }}>
-                        <BookCover coverUrl={book.cover_url} style={{ height: '100%', width: '100%' }} />
-                      </div>
-                    }
-                  >
-                    <div style={{ padding: '16px' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
-                        <Tag color={getStatusColor(book.status)} style={{ borderRadius: '8px', fontSize: '12px' }}>
-                          {getStatusLabel(book.status)}
-                        </Tag>
-                        <Popconfirm
-                          title="确定从书单中移除这本书吗？"
-                          onConfirm={(e) => {
-                            e?.stopPropagation();
-                            handleRemoveBook(book.id);
-                          }}
-                          okText="确定"
-                          cancelText="取消"
-                          okButtonProps={{ danger: true }}
-                        >
-                          <Button
-                            type="text"
-                            danger
-                            icon={<DeleteOutlined />}
-                            size="small"
-                            onClick={(e) => e.stopPropagation()}
-                            style={{ color: '#9E9E9E' }}
-                          />
-                        </Popconfirm>
-                      </div>
-
-                      <h3 style={{
-                        fontFamily: '"Noto Serif SC", serif',
-                        fontSize: '16px',
-                        fontWeight: '600',
-                        color: '#424242',
-                        margin: '0 0 6px 0',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap'
-                      }}>
-                        {book.title}
-                      </h3>
-                      <p style={{
-                        color: '#757575',
-                        fontSize: '13px',
-                        margin: 0,
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap'
-                      }}>
-                        {book.author}
-                      </p>
-                    </div>
-                  </Card>
-                </div>
-              ))}
-            </div>
-          )}
+          <div className="header-actions">
+            <Button
+              icon={<EditOutlined />}
+              onClick={handleEditCollection}
+              style={{ borderRadius: '12px', height: '44px', padding: '0 20px' }}
+            >
+              编辑
+            </Button>
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={handleAddBooks}
+              style={{
+                borderRadius: '12px',
+                height: '44px',
+                padding: '0 24px',
+                background: 'linear-gradient(135deg, #81C784 0%, #66BB6A 100%)',
+                boxShadow: '0 3px 12px rgba(129, 199, 132, 0.35)',
+                border: 'none'
+              }}
+            >
+              添加书籍
+            </Button>
+          </div>
         </div>
+
+        {books.length === 0 ? (
+          <div className="empty-state">
+            <div style={{
+              width: '120px',
+              height: '120px',
+              background: 'linear-gradient(135deg, rgba(241, 248, 233, 0.8) 0%, rgba(227, 242, 253, 0.8) 100%)',
+              borderRadius: '30px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 20px',
+              fontSize: '56px'
+            }}>
+              📚
+            </div>
+            <Empty
+              description={
+                <div>
+                  <p style={{ fontSize: '17px', fontWeight: '500', color: '#616161', marginBottom: '8px' }}>
+                    书单还没有书籍
+                  </p>
+                  <p style={{ fontSize: '14px', color: '#9E9E9E' }}>
+                    点击上方按钮添加书籍吧
+                  </p>
+                </div>
+              }
+            />
+          </div>
+        ) : (
+          <div className="books-grid">
+            {books.map((book) => {
+              const statusStyle = getStatusStyle(book.status);
+
+              return (
+                <div
+                  key={book.id}
+                  className="book-card"
+                  style={{
+                    borderRadius: '12px',
+                    border: 'none',
+                    boxShadow: '0 2px 12px rgba(0, 0, 0, 0.08)',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    background: 'white',
+                    overflow: 'hidden'
+                  }}
+                  onClick={() => navigate(`/books/${book.id}`)}
+                >
+                  <div className="book-cover-wrap">
+                    <div className="book-cover-wrap-inner">
+                      <BookCover
+                        coverUrl={book.cover_url}
+                        className="book-cover-img"
+                        alt={book.title}
+                      />
+                    </div>
+                    <Popconfirm
+                      title="确定从书单中移除这本书吗？"
+                      onConfirm={(e) => {
+                        e?.stopPropagation();
+                        handleRemoveBook(book.id);
+                      }}
+                      okText="确定"
+                      cancelText="取消"
+                      okButtonProps={{ danger: true }}
+                    >
+                      <Button
+                        type="text"
+                        danger
+                        icon={<DeleteOutlined />}
+                        size="small"
+                        onClick={(e) => e.stopPropagation()}
+                        className="book-more-btn"
+                      />
+                    </Popconfirm>
+                  </div>
+                  <div className="book-info">
+                    <div className="book-info-header">
+                      <div className="book-info-text">
+                        <h3 className="book-title">{book.title}</h3>
+                        <p className="book-author">{book.author}</p>
+                      </div>
+                    </div>
+                    <div className="book-info-footer">
+                      <span
+                        className="book-status"
+                        style={{
+                          background: statusStyle.bg,
+                          color: statusStyle.color
+                        }}
+                      >
+                        {getStatusLabel(book.status)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       <Modal

@@ -327,10 +327,10 @@ const BooksPage = () => {
         <div className="status-tabs">
           {[
             { key: 'all', label: '全部', count: books.length },
-            { key: 'want_to_read', label: '鎯宠', count: getStatusCount('want_to_read') },
-            { key: 'reading', label: '鍦ㄨ', count: getStatusCount('reading') },
-            { key: 'read', label: '宸茶', count: getStatusCount('read') },
-            { key: 'shelved', label: '鎼佺疆', count: getStatusCount('shelved') }
+            { key: 'want_to_read', label: '想读', count: getStatusCount('want_to_read') },
+            { key: 'reading', label: '在读', count: getStatusCount('reading') },
+            { key: 'read', label: '已读', count: getStatusCount('read') },
+            { key: 'shelved', label: '搁置', count: getStatusCount('shelved') }
           ].map(filter => (
             <button
               key={filter.key}
@@ -350,7 +350,8 @@ const BooksPage = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
+                fontFamily: '"Noto Serif SC", "PingFang SC", "Microsoft YaHei", "SimSun", serif'
               }}
             >
               {filter.label}
@@ -380,16 +381,17 @@ const BooksPage = () => {
               margin: '0 auto 20px',
               fontSize: '56px'
             }}>
-              馃摎
+              📚
             </div>
             <Empty
               description={
                 <div>
                   <p style={{ fontSize: '17px', fontWeight: '500', color: '#616161', marginBottom: '8px' }}>
-                    涔︽灦杩樻槸绌虹┖濡備篃
+                    书架还是空空如也
                   </p>
                   <p style={{ fontSize: '14px', color: '#9E9E9E' }}>
-                    寮€濮嬫坊鍔犱綘鐨勭涓€鏈功鍚?                  </p>
+                    开始添加你的第一本书吧！
+                  </p>
                 </div>
               }
             />
@@ -444,19 +446,19 @@ const BooksPage = () => {
                           {
                             key: 'edit',
                             icon: <EditOutlined />,
-                            label: '\u7f16\u8f91',
+                            label: '编辑',
                             onClick: () => handleEditBook(book)
                           },
                           {
                             key: 'share',
                             icon: <ShareAltOutlined />,
-                            label: '\u5206\u4eab',
+                            label: '分享',
                             onClick: () => handleShareBook(book.id)
                           },
                           {
                             key: 'delete',
                             icon: <DeleteOutlined />,
-                            label: '\u5220\u9664',
+                            label: '删除',
                             danger: true,
                             onClick: () => handleDeleteBook(book.id)
                           }
@@ -491,7 +493,7 @@ const BooksPage = () => {
                       </span>
                       {notesCount[book.id] > 0 && (
                         <span className="book-notes-count">
-                          {notesCount[book.id]} 绗旇
+                          {notesCount[book.id]} 笔记
                         </span>
                       )}
                     </div>
